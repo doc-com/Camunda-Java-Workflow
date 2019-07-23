@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="3.1.2">
+  <bpmn:process id="consultation" name="consultation" isExecutable="true">
+    <bpmn:startEvent id="StartEventProcessStarted" name="Process&#10;started">
+      <bpmn:outgoing>SequenceFlow1</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:endEvent id="EndEventProcessEnded" name="Process&#10;ended">
+      <bpmn:incoming>SequenceFlow_14et3xq</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="SequenceFlow1" sourceRef="StartEventProcessStarted" targetRef="Task_0b80ygn" />
+    <bpmn:sequenceFlow id="SequenceFlow_1ghf5re" sourceRef="Task_0b80ygn" targetRef="Task_1wx0xai" />
+    <bpmn:serviceTask id="Task_0b80ygn" name="Fetch EHR Template" camunda:class="com.doc.bpm.consultation.FetchEHRTemplateDelegate">
+      <bpmn:incoming>SequenceFlow1</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1ghf5re</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_14et3xq" sourceRef="Task_0kpal3j" targetRef="EndEventProcessEnded" />
+    <bpmn:serviceTask id="Task_0kpal3j" name="Print Results" camunda:class="com.doc.bpm.consultation.LoggerDelegate">
+      <bpmn:incoming>SequenceFlow_0x8f7to</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_14et3xq</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Task_1wx0xai" name="Convert Template to HTML Form" camunda:class="com.doc.bpm.consultation.ConvertTemplateToHTMLDelegate">
+      <bpmn:incoming>SequenceFlow_1ghf5re</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_18z66vy</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_18z66vy" sourceRef="Task_1wx0xai" targetRef="Task_0ezef2i" />
+    <bpmn:serviceTask id="Task_0ezef2i" name="Fill Out Form" camunda:type="external" camunda:topic="form">
+      <bpmn:incoming>SequenceFlow_18z66vy</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1l9s5q5</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_1l9s5q5" sourceRef="Task_0ezef2i" targetRef="Task_0fj0316" />
+    <bpmn:sequenceFlow id="SequenceFlow_1y7lytb" sourceRef="Task_0fj0316" targetRef="Task_1npmz4c" />
+    <bpmn:serviceTask id="Task_0fj0316" name="Merge Contribution" camunda:class="com.doc.bpm.consultation.MergeContributionDelegate">
+      <bpmn:incoming>SequenceFlow_1l9s5q5</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1y7lytb</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_0x8f7to" sourceRef="Task_1npmz4c" targetRef="Task_0kpal3j" />
+    <bpmn:serviceTask id="Task_1npmz4c" name="Validate Contribution" camunda:class="com.doc.bpm.consultation.ValidateContributionDelegate">
+      <bpmn:incoming>SequenceFlow_1y7lytb</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0x8f7to</bpmn:outgoing>
+    </bpmn:serviceTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="consultation">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEventProcessStarted">
+        <dc:Bounds x="173" y="102" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_0fkea3f_di" bpmnElement="EndEventProcessEnded">
+        <dc:Bounds x="1245" y="102" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1243" y="138" width="41" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_08va5r8_di" bpmnElement="SequenceFlow1">
+        <di:waypoint x="209" y="120" />
+        <di:waypoint x="272" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="337.5" y="110" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1ghf5re_di" bpmnElement="SequenceFlow_1ghf5re">
+        <di:waypoint x="372" y="120" />
+        <di:waypoint x="434" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_0p3vy85_di" bpmnElement="Task_0b80ygn">
+        <dc:Bounds x="272" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_14et3xq_di" bpmnElement="SequenceFlow_14et3xq">
+        <di:waypoint x="1203" y="120" />
+        <di:waypoint x="1245" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_1jan26m_di" bpmnElement="Task_0kpal3j">
+        <dc:Bounds x="1103" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_1th7de6_di" bpmnElement="Task_1wx0xai">
+        <dc:Bounds x="434" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_18z66vy_di" bpmnElement="SequenceFlow_18z66vy">
+        <di:waypoint x="534" y="120" />
+        <di:waypoint x="603" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_1x1i8jn_di" bpmnElement="Task_0ezef2i">
+        <dc:Bounds x="603" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1l9s5q5_di" bpmnElement="SequenceFlow_1l9s5q5">
+        <di:waypoint x="703" y="120" />
+        <di:waypoint x="774" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1y7lytb_di" bpmnElement="SequenceFlow_1y7lytb">
+        <di:waypoint x="874" y="120" />
+        <di:waypoint x="935" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_1ftylup_di" bpmnElement="Task_0fj0316">
+        <dc:Bounds x="774" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0x8f7to_di" bpmnElement="SequenceFlow_0x8f7to">
+        <di:waypoint x="1035" y="120" />
+        <di:waypoint x="1103" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_1p0oub0_di" bpmnElement="Task_1npmz4c">
+        <dc:Bounds x="935" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
